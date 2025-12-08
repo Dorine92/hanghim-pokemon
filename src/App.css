@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Sigmar+One');
+
+.pokemon-container {
+  width: 250px;
+  margin: 2rem auto;
+  text-align: center;
+  font-family: 'sigmar one', sans-serif;
+  color: #ffcb05;
+  -webkit-text-stroke: 1px #2a75bb;
+}
+
+

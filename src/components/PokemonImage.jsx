@@ -1,0 +1,1 @@
+// image du pokemon sélectionné

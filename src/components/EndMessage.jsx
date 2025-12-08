@@ -1,0 +1,1 @@
+// message de fin pour savoir si on a gagné ou perdu et permet de recommencer
