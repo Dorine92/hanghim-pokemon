@@ -11,6 +11,7 @@ function GameScreen() {
 	const [pokemonImage, setPokemonImage] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const [foundLetters, setFoundLetters] = useState([]);
+	const [lives, setLives] = useState(7);
 
 	function normalizeString(string) {
 	return string
@@ -45,19 +46,45 @@ function GameScreen() {
 	}
 
 	function handleLetterClick(letter) {
-		if(!foundLetters.includes(letter)) {
-			setFoundLetters([...foundLetters, letter]);
+		if(foundLetters.includes(letter)) {
+			return;
 		}
+
+		setFoundLetters([...foundLetters, letter]);
+		
+		if(!pokemonName.includes(letter)) {
+			setLives(lives => lives - 1);
+		}
+	}
+
+	function restartGame() {
+		window.location.reload();
+	}
+
+	if(lives <= 0) {
+		return(
+			<section className="pokemon-framed">
+				<p>Perdu... le Pokemon etait : <u>{pokemonName}</u></p>
+				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
+			</section>
+		);
 	}
 
 	return (
 		<div>
 			{isLoading ? (<div>Chargement...</div>) 
-			: (<div className="pokemon-container">
-				<img src={pokemonImage} alt={pokemonName} />
-				<p>{getMaskedWord()}</p>
+			: (<section className="pokemon-framed">
+				<div>
+					{Array.from({ length: lives }).map((_, i) => (
+					<img key={i} src="/img/pokeball.png" className="life-icon" />
+				))}
+				</div>
+				<div className="pokemon-image">
+					<img src={pokemonImage} alt={pokemonName} />
+				</div>
+				<p className="masked-word">{getMaskedWord()}</p>
 				<Keyboard onLetterClick={handleLetterClick} />
-			</div>)}
+			</section>)}
 		</div>
 	);
 

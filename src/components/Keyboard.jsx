@@ -6,7 +6,7 @@ function Keyboard({ onLetterClick }) {
 	const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 	return (
-		<div>
+		<div className="keyboard">
 			{ALPHABET.map(letter => 
 				(<button key={letter} onClick={() => onLetterClick(letter)}>{letter}</button>
 			))}

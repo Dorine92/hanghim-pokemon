@@ -2,7 +2,9 @@
 
 function StartScreen({ onStart }) {
 	return (
-		<button onClick={onStart}>Commencer la partie</button>
+		<section className="start-game">
+			<button className="framed-button" onClick={onStart}>Commencer la partie ?</button>
+		</section>
 	);
 
 }
