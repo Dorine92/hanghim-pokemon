@@ -1,15 +1,26 @@
 //  clavier virtuel de A à Z
-import React from "react";
 
-function Keyboard({ onLetterClick }) {
+function Keyboard({ onLetterClick, foundLetters }) {
 
 	const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 	return (
 		<div className="keyboard">
-			{ALPHABET.map(letter => 
-				(<button key={letter} onClick={() => onLetterClick(letter)}>{letter}</button>
-			))}
+			{ALPHABET.map(letter => {
+
+				const isUsed = foundLetters.includes(letter);
+
+				return (
+					<button
+						key={letter}
+						onClick={() => onLetterClick(letter)}
+						disabled={isUsed}
+						className={isUsed ? "used" : ""}
+					>
+						{letter}
+					</button>
+				);
+			})}
 		</div>
 	);
 }

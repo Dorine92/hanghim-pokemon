@@ -1,1 +1,0 @@
-// pour afficher les vies restantes

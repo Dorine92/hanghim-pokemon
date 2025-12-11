@@ -12,6 +12,7 @@ function GameScreen() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [foundLetters, setFoundLetters] = useState([]);
 	const [lives, setLives] = useState(7);
+	const win = pokemonName.length > 0 && pokemonName.split("").every(letter => foundLetters.includes(letter));
 
 	function normalizeString(string) {
 	return string
@@ -20,15 +21,16 @@ function GameScreen() {
 		.toUpperCase();
 	}
 
-  async function fetchPokemon() {
-	let response = await axios.get(API_URL);
-	let listPokemon = await response.data;
-	let randomPokemon = Math.floor(Math.random() * listPokemon.length);
-	const pokemon = listPokemon[randomPokemon];
-	setPokemonImage(pokemon.image);
-	setPokemonName(normalizeString(pokemon.name.toUpperCase()));
-	setIsLoading(false);
-  }
+	async function fetchPokemon() {
+		let response = await axios.get(API_URL);
+		let listPokemon = await response.data;
+		let randomPokemon = Math.floor(Math.random() * listPokemon.length);
+		const pokemon = listPokemon[randomPokemon];
+		setPokemonImage(pokemon.image);
+		setPokemonName(normalizeString(pokemon.name.toUpperCase()));
+		setIsLoading(false);
+	}
+
 	useEffect(() => {
 		fetchPokemon();
 	}, []);
@@ -68,6 +70,13 @@ function GameScreen() {
 				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
 			</section>
 		);
+	} else if (win) {
+		return(
+			<section className="pokemon-framed">
+				<p>Bravo ! Tu as trouvé <u>{pokemonName} !</u></p>
+				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
+			</section>
+		);
 	}
 
 	return (
@@ -83,11 +92,10 @@ function GameScreen() {
 					<img src={pokemonImage} alt={pokemonName} />
 				</div>
 				<p className="masked-word">{getMaskedWord()}</p>
-				<Keyboard onLetterClick={handleLetterClick} />
+				<Keyboard onLetterClick={handleLetterClick} foundLetters={foundLetters} />
 			</section>)}
 		</div>
 	);
-
 }
 
 export default GameScreen;
