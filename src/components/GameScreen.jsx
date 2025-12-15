@@ -1,117 +1,140 @@
-// la plateforme principale sur laquelle va se dérouler le jeu
-
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Keyboard from "./Keyboard";
 
-function GameScreen({ pokemonList }) {
-	const [pokemonName, setPokemonName] = useState('');
-	const [pokemonImage, setPokemonImage] = useState('');
+function GameScreen({ pokemonList, onPokemonFound }) {
+	const [currentPokemon, setCurrentPokemon] = useState(null);
 	const [foundLetters, setFoundLetters] = useState([]);
 	const [lives, setLives] = useState(7);
-	const win = pokemonName.length > 0 && pokemonName.split("").every(letter => foundLetters.includes(letter));
+	const [hasBeenAdded, setHasBeenAdded] = useState(false);
 
 	function normalizeString(string) {
-	return string
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toUpperCase();
+		return string
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.toUpperCase();
 	}
 
-	function fetchPokemon() {
-		let randomPokemon = Math.floor(Math.random() * pokemonList.length);
-		const pokemon = pokemonList[randomPokemon];
-		setPokemonImage(pokemon.image);
-		setPokemonName(normalizeString(pokemon.name.toUpperCase()));
+	function pickRandomPokemon() {
+		if (pokemonList.length === 0) return;
+
+		const randomIndex = Math.floor(Math.random() * pokemonList.length);
+		const pokemon = pokemonList[randomIndex];
+
+		setCurrentPokemon({
+			...pokemon,
+			normalizedName: normalizeString(pokemon.name)
+		});
+
+		setFoundLetters([]);
+		setLives(7);
+		setHasBeenAdded(false); 
 	}
 
 	useEffect(() => {
-		if(pokemonList.length > 0) {
-			fetchPokemon();
+		if (!currentPokemon && pokemonList.length > 0) {
+			pickRandomPokemon();
 		}
 	}, [pokemonList]);
 
+	const win =
+		currentPokemon &&
+		currentPokemon.normalizedName
+			.split("")
+			.every(letter => foundLetters.includes(letter));
+
 	function getMaskedWord() {
-		let masked = [];
-		for (const letter of pokemonName) {
-			if(foundLetters.includes(letter)) {
-				masked.push(letter);
-			} else {
-				masked.push("_");
-			}
-		}
-		return masked.join(" ");
+		if (!currentPokemon) return "";
+
+		return currentPokemon.normalizedName
+			.split("")
+			.map(letter => (foundLetters.includes(letter) ? letter : "_"))
+			.join(" ");
 	}
 
 	function handleLetterClick(letter) {
-		if(foundLetters.includes(letter)) {
-			return;
-		}
+		if (foundLetters.includes(letter) || lives <= 0 || win) return;
 
-		setFoundLetters([...foundLetters, letter]);
-		
-		if(!pokemonName.includes(letter)) {
-			setLives(lives => lives - 1);
+		setFoundLetters(prev => [...prev, letter]);
+
+		if (!currentPokemon.normalizedName.includes(letter)) {
+			setLives(prev => prev - 1);
 		}
 	}
 
 	useEffect(() => {
-		function handleKeyDown(event) {
-			const key = event.key.toUpperCase();
-
+		function handleKeyDown(e) {
+			const key = e.key.toUpperCase();
 			if (!/^[A-Z]$/.test(key)) return;
-
-			if (foundLetters.includes(key)) return;
-
-			if (lives <= 0 || win) return;
-
 			handleLetterClick(key);
 		}
 
 		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [foundLetters, lives, win]);
 
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown);
-		};
-	}, [foundLetters, pokemonName, lives, win]);
+	useEffect(() => {
+		if (win && currentPokemon && !hasBeenAdded) {
+			onPokemonFound(currentPokemon);
+			setHasBeenAdded(true);
+		}
+	}, [win, currentPokemon, hasBeenAdded]);
 
+	if (!currentPokemon) return null;
 
-	function restartGame() {
-		setFoundLetters([]);
-  		setLives(7);
-  		fetchPokemon();
-	}
-
-	if(lives <= 0) {
-		return(
+	if (lives <= 0) {
+		return (
 			<section className="pokemon-framed">
-				<p>Perdu... le Pokemon etait : <u>{pokemonName}</u></p>
-				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
+				<p>
+					Perdu… le Pokemon etait{" "}
+					<u>{currentPokemon.normalizedName}</u>
+				</p>
+				<button className="framed-button" onClick={pickRandomPokemon}>
+					Rejouer ?
+				</button>
 			</section>
 		);
-	} else if (win) {
-		return(
+	}
+
+	if (win) {
+		return (
 			<section className="pokemon-framed">
-				<p>Bravo ! Tu as trouve <u>{pokemonName} !</u></p>
-				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
+				<p>
+					Bravo ! Tu as trouve{" "}
+					<u>{currentPokemon.normalizedName}</u>
+				</p>
+				<button className="framed-button" onClick={()=> {pickRandomPokemon();}}>
+					Continuer ?
+				</button>
 			</section>
 		);
 	}
 
 	return (
-		<div>
-			<section className="pokemon-framed">
-				<div>
-					{Array.from({ length: lives }).map((_, i) => (
-					<img key={i} src="/img/pokeball.png" className="life-icon" />
+		<section className="pokemon-framed">
+			<div>
+				{Array.from({ length: lives }).map((_, i) => (
+					<img
+						key={i}
+						src="/img/pokeball.png"
+						className="life-icon"
+					/>
 				))}
-				</div>
-				<div className="pokemon-image">
-					<img src={pokemonImage} alt={pokemonName} />
-				</div>
-				<p className="masked-word">{getMaskedWord()}</p>
-				<Keyboard onLetterClick={handleLetterClick} foundLetters={foundLetters} />
-			</section>
-		</div>
+			</div>
+
+			<div className="pokemon-image">
+				<img
+					src={currentPokemon.image}
+					alt={currentPokemon.name}
+				/>
+			</div>
+
+			<p className="masked-word">{getMaskedWord()}</p>
+
+			<Keyboard
+				onLetterClick={handleLetterClick}
+				foundLetters={foundLetters}
+			/>
+		</section>
 	);
 }
 
