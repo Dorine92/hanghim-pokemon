@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Sigmar+One');
-
 @font-face {
 	font-family: 'Early GameBoy';
 	src: url('./fonts/EarlyGameBoy.ttf') format('truetype');
@@ -18,34 +16,45 @@ body {
 	background: url("/img/retro-bg.gif");
 }
 
-.titre-pokemon {
-font-family: "Pokemon Hollow", sans-serif;
+section {
+	display: flex;
 }
 
 h1 {
-margin: 0;
-padding: 0;
-font-size: 4rem;
-text-align: center;
-font-family: "Pokemon Solid", sans-serif;
-color: white;
--webkit-text-stroke: 3px black;
+	margin: 0;
+	padding: 0;
+	font-size: 4rem;
+	text-align: center;
+	font-family: "Pokemon Solid", sans-serif;
+	color: white;
+	-webkit-text-stroke: 3px black;
 }
 
 .life-icon {
-width: 2rem;
-margin-right: 0.5rem;
+	width: 2rem;
+	margin-right: 0.5rem;
+}
+
+.isLoading {
+	margin: 20vh auto;
+	background-color: white;
+	font-family: 'Early GameBoy', sans-serif;
+	display: inline-block;
+	border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAMAAAAPdrEwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAABgQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMM8PuMAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGHRFWHRTb2Z0d2FyZQBwYWludC5uZXQgNC4xLjVkR1hSAAAA5UlEQVRoQ+3MQQrDMBBD0fb+h06N/2A+MTHdTtBbKRpHn0u+UtUf6oepqinTQ1VT62kfyNgbuHcGTaYXmqbT9XXEU6vDUaZvWk/XHxtfn/KOa6YXrk2n/UGGG7K5J8NNpgc3rafBAW7I5p4MGmR6oMFrpvf8xG+ckemV0XraB+czv3RGpldG62n47PzEb5yR6ZXxmmm4IZt7MmiQ6YEGrad9IGNv4N4ZNJleaJpO19cRT60OR5m+aT1df2x8fco7rpleuDad9gcZbsjmngw3mR7ctJ4GB1T1h/phqmrK9FDV1HH6un4ss9jsFZtJkQAAAABJRU5ErkJggg==) 42 round;
+	border-width: 21px;
+	border-style: solid;
+	padding: 0.5em 1.2em;
+	width: 35%;
 }
 
 section.pokemon-framed {
-	margin: 2em 0;
 	padding-bottom: 4em;
 	background-color: white;
 	width: 70%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 2rem auto;
+	margin: 1rem auto;
 	padding: 2rem;
 	text-align: center;
 	font-family: 'Early GameBoy', sans-serif;
@@ -102,6 +111,8 @@ section.pokemon-framed {
 
 .keyboard {
 	display: flex;
+	flex-wrap: wrap;
+	width: 50%;
 	gap: 0.5rem;
 }
 
@@ -128,24 +139,24 @@ section.pokemon-framed {
 }
 
 .sound-toggle {
-  position: fixed;
-  top: 2rem;
-  left: 2rem;
-  z-index: 999;
-  cursor: pointer;
+	position: fixed;
+	top: 2rem;
+	left: 2rem;
+	z-index: 999;
+	cursor: pointer;
 
-  padding: 6px 10px;
-  border-radius: 15px;
+	padding: 6px 10px;
+	border-radius: 15px;
 
-  background: rgba(180, 180, 180, 0.7);
-  backdrop-filter: blur(4px) contrast(1.2);
-  image-rendering: pixelated;
+	background: rgba(180, 180, 180, 0.7);
+	backdrop-filter: blur(4px) contrast(1.2);
+	image-rendering: pixelated;
 
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
+	box-shadow: 0 0 10px rgba(255,255,255,0.4);
+	transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .sound-toggle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 18px rgba(255,255,255,0.7);
+	transform: scale(1.05);
+	box-shadow: 0 0 18px rgba(255,255,255,0.7);
 }

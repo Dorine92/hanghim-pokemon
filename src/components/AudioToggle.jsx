@@ -8,9 +8,9 @@ function AudioToggle() {
 		if (!audioRef.current) return;
 
 		if (isSoundOn) {
-		audioRef.current.pause();
+			audioRef.current.pause();
 		} else {
-		audioRef.current.play().catch(() => {});
+			audioRef.current.play().catch(() => {});
 		}
 
 		setIsSoundOn(!isSoundOn);
