@@ -128,25 +128,24 @@ section.pokemon-framed {
 }
 
 .sound-toggle {
-	position: fixed;
-	top: 1rem;
-	left: 1rem;
-	z-index: 999;
-	cursor: pointer;
-	display: inline-block;
-	user-select: none;
-	transition: transform 0.12s ease, filter 0.15s ease;
-}
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 999;
+  cursor: pointer;
 
-.sound-toggle img {
-	filter: brightness(3) drop-shadow(0 0 5px white);
+  padding: 6px 10px;
+  border-radius: 15px;
+
+  background: rgba(180, 180, 180, 0.7);
+  backdrop-filter: blur(4px) contrast(1.2);
+  image-rendering: pixelated;
+
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .sound-toggle:hover {
-	filter: brightness(1.3);
-}
-
-.sound-toggle:active {
-	transform: scale(0.92);
-	filter: brightness(0.8);
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(255,255,255,0.7);
 }

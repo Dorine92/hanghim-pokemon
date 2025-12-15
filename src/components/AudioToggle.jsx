@@ -18,13 +18,13 @@ function AudioToggle() {
 
 	return (
 		<div className="sound-toggle" onClick={toggleSound}>
-		<audio ref={audioRef} src="/audio/bike_theme.mp3" loop />
-
-		<img
-			src={isSoundOn ? "/img/sound-on.svg" : "/img/sound-off.svg"}
-			alt="sound toggle"
-			style={{ width: "60px" }}
-		/>
+			<audio ref={audioRef} src="/audio/bike_theme.mp3" loop />
+			<img
+				className={isSoundOn ? "icon-sound-on" : "icon-sound-off"}
+				src={isSoundOn ? "/img/sound-on.svg" : "/img/sound-off.svg"}
+				alt="sound toggle"
+				style={{ width: "60px" }}
+			/>
 		</div>
 	);
 }

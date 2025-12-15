@@ -73,7 +73,7 @@ function GameScreen() {
 	} else if (win) {
 		return(
 			<section className="pokemon-framed">
-				<p>Bravo ! Tu as trouvé <u>{pokemonName} !</u></p>
+				<p>Bravo ! Tu as trouve <u>{pokemonName} !</u></p>
 				<button className="framed-button" onClick={restartGame}>Rejouer ?</button>
 			</section>
 		);
